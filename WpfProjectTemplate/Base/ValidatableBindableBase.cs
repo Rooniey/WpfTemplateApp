@@ -3,20 +3,32 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Caliburn.Micro;
+using System.Runtime.CompilerServices;
 
 namespace WpfProjectTemplate.Base
 {
-    public class ValidatableBindableBase : PropertyChangedBase, INotifyDataErrorInfo
+    public class ValidatableBindableBase : BindableBase, INotifyDataErrorInfo
     {
         private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
-        public bool HasErrors => _errors.Count > 0;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
 
-        public ValidatableBindableBase()
+        public System.Collections.IEnumerable GetErrors(string propertyName)
         {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return null;
+            }
 
+            return _errors.ContainsKey(propertyName) ? _errors[propertyName] : null;
+        }
+
+        public bool HasErrors => _errors.Count > 0;
+
+        protected override void SetProperty<T>(ref T member, T val, [CallerMemberName] string propertyName = null)
+        {
+            base.SetProperty<T>(ref member, val, propertyName);
+            ValidateProperty(propertyName, val);
         }
 
         private void ValidateProperty<T>(string propertyName, T value)
@@ -34,23 +46,6 @@ namespace WpfProjectTemplate.Base
                 _errors.Remove(propertyName);
             }
             ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
-        }
-
-        public System.Collections.IEnumerable GetErrors(string propertyName)
-        {
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                return null;
-            }
-
-            return _errors.ContainsKey(propertyName) ? _errors[propertyName] : null;
-        }
-
-        public override bool Set<T>(ref T oldValue, T newValue, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            bool toReturn = base.Set(ref oldValue, newValue, propertyName);
-            ValidateProperty(propertyName, newValue);
-            return toReturn;
         }
     }
 }

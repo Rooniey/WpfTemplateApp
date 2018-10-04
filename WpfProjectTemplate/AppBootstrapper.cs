@@ -1,6 +1,7 @@
 using Caliburn.Micro;
 using WpfProjectTemplate.Base;
 using WpfProjectTemplate.Utility;
+using WpfProjectTemplate.ViewModels;
 
 namespace WpfProjectTemplate
 {

@@ -1,31 +1,16 @@
-using Caliburn.Micro;
-using System.ComponentModel.DataAnnotations;
-using WpfProjectTemplate.Base;
+﻿using Caliburn.Micro;
 
-namespace WpfProjectTemplate {
-    public class ShellViewModel : ValidatableBindableBase
+namespace WpfProjectTemplate.ViewModels
+{
+    public class ShellViewModel
     {
-        private readonly ILog _log = LogManager.GetLog(typeof(ShellViewModel));
+        private ILog _logger = LogManager.GetLog(typeof(ShellViewModel));
 
-
-        private string _name;
-
-        [Required]
-        [StringLength(10)]
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                Set(ref _name, value);
-            }
-
-        }
+        public SampleViewModel SampleViewModel { get; set; } = new SampleViewModel();
 
         public ShellViewModel()
         {
-            _log.Info("ShellViewModel created");
+            _logger.Info("Initializing shell view model");
         }
-
     }
 }

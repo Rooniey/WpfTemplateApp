@@ -30,10 +30,18 @@ namespace WpfProjectTemplate.Base
 
         protected override object GetInstance(Type serviceType, string key)
         {
+          
             if (string.IsNullOrWhiteSpace(key))
             {
                 if (Container.IsRegistered(serviceType))
-                    return Container.Resolve(serviceType);
+                    return Container.Resolve(serviceType); 
+            }
+            else
+            {
+                if (Container.IsRegisteredWithKey(key, serviceType))
+                {
+                    return Container.ResolveKeyed(key, serviceType);
+                }
             }
 
             throw new Exception($"Could not locate any instances of contract {key ?? serviceType.Name}.");

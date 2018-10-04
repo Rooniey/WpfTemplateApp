@@ -1,13 +1,31 @@
-<Window x:Class="WpfProjectTemplate.ShellView"
+<Window x:Class="WpfProjectTemplate.Views.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Wpf template app">
 
-    <Grid Background="White">
-        <TextBlock Text="Hello Caliburn Micro!"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="20" />
-        <TextBox  Text="{Binding Path=Name, ValidatesOnDataErrors=True}"></TextBox>
+    <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:ColorZone Padding="16" 
+                                  materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                  Mode="PrimaryMid"
+                                  Grid.Row="0">
+            <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       FontSize="22">Wpf template app</TextBlock>
+        </materialDesign:ColorZone>
+        <ScrollViewer Grid.Row="1" Padding="10">
+            <ContentControl x:Name="SampleViewModel"/>
+        </ScrollViewer>
     </Grid>
-
 </Window>
